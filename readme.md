@@ -1,6 +1,6 @@
 # 🎄 Advent of Code 2025 <img src="https://adventofcode.com/favicon.png" width=35> My solutions
 
-![Stars](https://img.shields.io/badge/⭐%20Stars-02/50-yellow)
+![Stars](https://img.shields.io/badge/⭐%20Stars-03/24-yellow)
 ![Language](https://img.shields.io/badge/C%2B%2B-17-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
@@ -20,10 +20,10 @@ Try to solve puzzles by yourselves 😄
 
 ## ⭐ Progression
 
-| Jour | Partie 1 | Partie 2 | Solutions |
+| Jour | Part 1 | Part 2 | Solutions |
 |------|----------|----------|-----------|
 | 1 | ⭐ | ⭐ | [Day 1](./day01) |
-| 2 | ⏳ | ⏳ | – |
+| 2 | ⭐ | ⭐ | [Day 2](./day02) |
 
 ---
 
@@ -32,7 +32,7 @@ Try to solve puzzles by yourselves 😄
 To compile and run a solution:
 
 ```bash
-g++ -std=c++17 <current_file>.cpp -o code && ./code
+cd <current_day> && g++ -std=c++17 <current_file>.cpp -o code && ./code
 ```
 ---
 
