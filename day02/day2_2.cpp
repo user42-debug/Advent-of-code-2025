@@ -39,7 +39,6 @@ signed main() {
         if (is_first) first = id;
         else {
             int beg = lower_bound(false_ids.begin(), false_ids.end(), first) - false_ids.begin();
-            cout << first << " " << false_ids[beg] << "\n";
             for (int i = beg; false_ids[i] <= id; i++) {
                 res += false_ids[i];
             }
