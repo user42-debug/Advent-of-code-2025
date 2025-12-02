@@ -20,7 +20,7 @@ Try to solve puzzles by yourselves 😄
 
 ## ⭐ Progression
 
-| Jour | Partie 1 | Partie 2 | Solutions |
+| Jour | Part 1 | Part2 | Solutions |
 |------|----------|----------|-----------|
 | 1 | ⭐ | ⭐ | [Day 1](./day01) |
 | 2 | ⏳ | ⏳ | – |
