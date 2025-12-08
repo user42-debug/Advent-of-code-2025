@@ -1,6 +1,6 @@
 # 🎄 Advent of Code 2025 <img src="https://adventofcode.com/favicon.png" width=35> My solutions
 
-![Stars](https://img.shields.io/badge/⭐%20Stars-14/24-yellow)
+![Stars](https://img.shields.io/badge/⭐%20Stars-16/24-yellow)
 ![Language](https://img.shields.io/badge/C%2B%2B-14-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
@@ -29,7 +29,7 @@ Try to solve puzzles by yourselves 😄
 | 5 | ⭐ | ⭐ | [Day 5](./day05) |
 | 6 | ⭐ | ⭐ | [Day 6](./day06) |
 | 7 | ⭐ | ⭐ | [Day 7](./day07) |
-| 8 | ⌛ | ⌛ | -- |
+| 8 | ⭐ | ⭐ | [Day 8](./day08) |
 | 9 | ⌛ | ⌛ | -- |
 | 10 | ⌛ | ⌛ | -- |
 | 11 | ⌛ | ⌛ | -- |
