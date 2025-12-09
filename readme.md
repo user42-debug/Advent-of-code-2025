@@ -1,6 +1,6 @@
 # 🎄 Advent of Code 2025 <img src="https://adventofcode.com/favicon.png" width=35> My solutions
 
-![Stars](https://img.shields.io/badge/⭐%20Stars-17/24-yellow)
+![Stars](https://img.shields.io/badge/⭐%20Stars-18/24-yellow)
 ![Language](https://img.shields.io/badge/C%2B%2B-14-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
