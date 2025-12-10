@@ -1,91 +1,80 @@
 #include <bits/stdc++.h>
-#define int long long
+#include "ortools/linear_solver/linear_solver.h"
 using namespace std;
+using namespace operations_research;
 
 ifstream fin("in_day10.txt");
 
-int n;
-vector<vector<int>> matrix;
-vector<int> joltage;
-vector<int> buttons;
+int main() {
+    string line;
+    int total = 0;
+    int machine_id = 0;
 
-int res = LLONG_MAX;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
 
-void dfs(int idx, vector<int> &current, vector<int> &curSum) {
-    if (idx == buttons.size()) {
-        bool ok = true;
-        for (int i = 0; i < n; i++)
-            if (curSum[i] != joltage[i]) ok = false;
-
-        if (ok) {
-            int s = 0;
-            for (auto x : current) s += x;
-            res = min(res, s);
+        size_t lbrace = line.find('{');
+        size_t rbrace = line.find('}');
+        string joltages_str = line.substr(lbrace + 1, rbrace - lbrace - 1);
+        stringstream ss(joltages_str);
+        vector<int> joltage;
+        int val;
+        while (ss >> val) {
+            joltage.push_back(val);
+            if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
         }
-        return;
-    }
-
-    int maxPress = LLONG_MAX;
-    for (int i = 0; i < n; i++) {
-        if (matrix[i][idx] == 0) continue;
-        maxPress = min(maxPress, joltage[i] - curSum[i]);
-    }
-    if (maxPress < 0) return;
-
-    for (int k = 0; k <= maxPress; k++) {
-        current[idx] = k;
-        for (int i = 0; i < n; i++)
-            curSum[i] += matrix[i][idx] * k;
-        dfs(idx + 1, current, curSum);
-        for (int i = 0; i < n; i++)
-            curSum[i] -= matrix[i][idx] * k;
-    }
-}
-
-signed main() {
-    char c;
-    int r = 0;
-    while (fin >> c) {
-        n = 0;
-        while (fin >> c && c != ']') n++;
-
-        buttons.clear();
-        while (fin >> c && c != '{') {
-            if (c == '(') {
-                int cur = 0, i;
-                while (true) {
-                    fin >> i;
-                    cur |= (1 << (n-1-i));
-                    fin >> c;
-                    if (c == ')') break;
-                }
-                buttons.push_back(cur);
+        int n = joltage.size();
+        vector<vector<int>> A_cols;
+        size_t pos = 0;
+        while ((pos = line.find('(', pos)) != string::npos) {
+            size_t end = line.find(')', pos);
+            string inside = line.substr(pos + 1, end - pos - 1);
+            vector<int> col(n, 0);
+            stringstream ssi(inside);
+            int x;
+            while (ssi >> x) {
+                col[x] = 1;
+                if (ssi.peek() == ',' || ssi.peek() == ' ') ssi.ignore();
             }
+            A_cols.push_back(col);
+            pos = end + 1;
         }
 
-        joltage.clear();
-        while (true) {
-            int i;
-            fin >> i;
-            joltage.push_back(i);
-            fin >> c;
-            if (c == '}') break;
-        }
-        matrix.assign(n, vector<int>(buttons.size(), 0));
-        for (int j = 0; j < buttons.size(); j++) {
-            int mask = buttons[j];
-            for (int i = 0; i < n; i++) {
-                int bit = (mask >> (n-1-i)) & 1;
-                matrix[i][j] = bit;
-            }
+        int m = n;
+        int num_buttons = A_cols.size();
+
+        MPSolver solver("JoltageMinPresses", MPSolver::CBC_MIXED_INTEGER_PROGRAMMING);
+
+        vector<const MPVariable*> x(num_buttons);
+        for (int j = 0; j < num_buttons; j++)
+            x[j] = solver.MakeIntVar(0.0, solver.infinity(), "x_" + to_string(j));
+
+        for (int i = 0; i < m; i++) {
+            LinearExpr expr;
+            for (int j = 0; j < num_buttons; j++) expr += A_cols[j][i] * x[j];
+            solver.MakeEquality(expr, joltage[i]);
         }
 
-        vector<int> current(buttons.size(), 0);
-        vector<int> curSum(n, 0);
-        res = LLONG_MAX;
-        dfs(0, current, curSum);
+        LinearExpr objective;
+        for (int j = 0; j < num_buttons; j++) objective += x[j];
+        solver.Minimize(objective);
 
-        r += res;
+        MPSolver::ResultStatus status = solver.Solve();
+        if (status != MPSolver::OPTIMAL) {
+            cout << "ERROR";
+            return 1;
+        }
+
+        int min_presses = 0;
+        vector<int> solution(num_buttons);
+        for (int j = 0; j < num_buttons; j++) {
+            solution[j] = static_cast<int>(x[j]->solution_value());
+            min_presses += solution[j];
+        }
+
+        total += min_presses;
+        machine_id++;
     }
-    cout << r;
+
+    cout << total;
 }
